@@ -43,7 +43,7 @@ $ npm run build
 ## Running the app
 
 ```bash
-# development
+# Dev development
 $ npm start
 
 # watch mode
