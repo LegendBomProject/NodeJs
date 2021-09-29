@@ -43,7 +43,7 @@ $ npm run build
 ## Running the app
 
 ```bash
-# development
+# Dev development
 $ npm start
 
 # watch mode
@@ -64,5 +64,5 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
-```
+````
 
