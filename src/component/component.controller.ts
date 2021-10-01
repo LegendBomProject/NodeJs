@@ -30,7 +30,7 @@ export class componentController {
             relOfCosting,
             dayInProgress,
             relOfProd
-        });;
+        });
     }
 
     @Get(':id')
