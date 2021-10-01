@@ -8,9 +8,16 @@ export class login {
     @Column()
     userRole: number;
 
-    @Column({ nullable: true })
-    userName?: string;
+    @Column()
+    userName: string;
 
-    @Column({ nullable: true })
-    password?: string;
+    @Column()
+    password: string;
+	
+	@Column({ nullable: true })
+	emailId?:string ;
+    
+	@Column({ nullable: true }) 
+	description?:string;
+
 }
