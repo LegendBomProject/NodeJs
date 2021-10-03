@@ -23,7 +23,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message:exceptionClone.sqlMessage
+      message:exceptionClone.sqlMessage,
+      exceptionDetail:exceptionClone
     });
   }
 }
