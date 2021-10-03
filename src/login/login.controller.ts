@@ -9,5 +9,10 @@ export class loginController {
   all() {
     return this.loginService.all();
   }
+
+  @Get(':userId')
+  async get(@Param('userId') id: number) {
+    return this.loginService.get(id);
+  }
 }
 
