@@ -12,24 +12,24 @@ export class componentController {
 
     @Post()
     create(
-        @Body('itemBOMNumber') itemBOMNumber: number,
-        @Body('componentNumber') componentNumber: number,
+        @Body('itemBomNO') itemBomNO: number,
+        @Body('componenetNo') componenetNo: number,
         @Body('quantity') quantity: number,
         @Body('UOM') UOM: string,
-        @Body('ExponsionType') ExponsionType: string,
-        @Body('RelForCosting') RelForCosting: boolean,
-        @Body('dayInProcess') dayInProcess: number,
-        @Body('RelOfProd') RelOfProd: boolean,
+        @Body('explosionType') explosionType: string,
+        @Body('relOfCosting') relOfCosting: boolean,
+        @Body('dayInProgress') dayInProgress: number,
+        @Body('relOfProd') relOfProd: boolean,
     ) {
         return this.componentService.create({
-            itemBOMNumber,
-            componentNumber,
+            itemBomNO,
+            componenetNo,
             quantity,
             UOM,
-            ExponsionType,
-            RelForCosting,
-            dayInProcess,
-            RelOfProd
+            explosionType,
+            relOfCosting,
+            dayInProgress,
+            relOfProd
         });
     }
 
@@ -41,24 +41,24 @@ export class componentController {
     @Put(':id')
     async update(
         @Param('id') id: number,
-        @Body('itemBOMNumber') itemBOMNumber: number,
-        @Body('componentNumber') componentNumber: number,
+        @Body('itemBomNO') itemBomNO: number,
+        @Body('componenetNo') componenetNo: number,
         @Body('quantity') quantity: number,
         @Body('UOM') UOM: string,
-        @Body('ExponsionType') ExponsionType: string,
-        @Body('RelForCosting') RelForCosting: boolean,
-        @Body('dayInProcess') dayInProcess: number,
-        @Body('RelOfProd') RelOfProd: boolean,
+        @Body('explosionType') explosionType: string,
+        @Body('relOfCosting') relOfCosting: boolean,
+        @Body('dayInProgress') dayInProgress: number,
+        @Body('relOfProd') relOfProd: boolean,
     ) {
         return this.componentService.update(id, {
-            itemBOMNumber,
-            componentNumber,
+            itemBomNO,
+            componenetNo,
             quantity,
             UOM,
-            ExponsionType,
-            RelForCosting,
-            dayInProcess,
-            RelOfProd
+            explosionType,
+            relOfCosting,
+            dayInProgress,
+            relOfProd
         });
     }
 
