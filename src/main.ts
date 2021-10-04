@@ -1,8 +1,8 @@
 import { NestFactory,HttpAdapterHost } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { logger } from './common/middleware/logger.middleware';
-import { HttpExceptionFilter } from './common/exception/http-exception.filter';
 import { AllExceptionsFilter } from './common/exception/all-exceptions.filter';
+import  utils  from './common/util/utils'
 declare const module: any;
 
 async function bootstrap() {
