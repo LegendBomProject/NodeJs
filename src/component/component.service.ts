@@ -12,7 +12,6 @@ export class componentService {
     async showAll(): Promise<component[]> {
         return this.componentRepository.find();
     }
-
     async create(data): Promise<component[]> {
         const comp = this.componentRepository.create(data);
         await this.componentRepository.save(data);
