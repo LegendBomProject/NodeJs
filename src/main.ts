@@ -8,6 +8,7 @@ declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new AllExceptionsFilter());
+  app.setGlobalPrefix('api');
   app.use(logger);
   await app.listen(3000);
   if (module.hot) {
