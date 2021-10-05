@@ -9,23 +9,27 @@ export class componentService {
         @InjectRepository(component) private readonly componentRepository: Repository<component>
     ) { }
 
-    async all(): Promise<component[]> {
+    async showAll(): Promise<component[]> {
         return this.componentRepository.find();
     }
 
-    async create(data): Promise<component> {
-        return this.componentRepository.save(data);
+    async create(data): Promise<component[]> {
+        const comp = this.componentRepository.create(data);
+        await this.componentRepository.save(data);
+        return comp;
     }
 
-    async get(id: number): Promise<component> {
-        return this.componentRepository.findOne({ id });
+    async read(id: number): Promise<component> {
+        return await this.componentRepository.findOne({ id });
     }
 
     async update(id: number, data): Promise<any> {
-        return this.componentRepository.update(id, data);
+        await this.componentRepository.update(id, data);
+        return await this.componentRepository.findOne(id);
     }
 
-    async delete(id: number): Promise<any> {
-        return this.componentRepository.delete(id);
+    async destroy(id: number): Promise<any> {
+        await this.componentRepository.delete(id);
+        return { delete: true };
     }
 }
