@@ -5,7 +5,6 @@ export class material {
     @PrimaryGeneratedColumn()
     id: number;
 
-    
     @Column()
     materialNo?: number;
 

@@ -19,8 +19,8 @@ export class componentService {
         return comp;
     }
 
-    async read(id: number): Promise<component> {
-        return await this.componentRepository.findOne({ id });
+    async read(materialNo: number): Promise<any> {
+        return await this.componentRepository.find({ materialNo });
     }
 
     async update(id: number, data): Promise<any> {
