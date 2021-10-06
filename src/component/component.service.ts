@@ -13,19 +13,8 @@ export class componentService {
         return this.componentRepository.find();
     }
 
-    async create(data): Promise<component[]> {
-        const comp = this.componentRepository.create(data);
-        await this.componentRepository.save(data);
-        return comp;
-    }
-
-    async read(materialNo: number): Promise<any> {
-        return await this.componentRepository.find({ materialNo });
-    }
-
-    async update(id: number, data): Promise<any> {
-        await this.componentRepository.update(id, data);
-        return await this.componentRepository.findOne(id);
+    async read(id: number): Promise<component[]> {
+        return await this.componentRepository.find({ where: { materialId: id } });
     }
 
     async destroy(id: number): Promise<any> {
