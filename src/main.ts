@@ -10,6 +10,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
   app.setGlobalPrefix('api');
   app.use(logger);
+  app.enableCors();
   await app.listen(3000);
   if (module.hot) {
     module.hot.accept();

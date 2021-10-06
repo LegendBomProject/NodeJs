@@ -6,8 +6,8 @@ export class component {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => material, m => m.id)
-    materialId?: number;
+    // @ManyToOne(() => material, m => m.id)
+    // materialId?: number;
 
     @Column({ nullable: true })
     materialNo?: number;
