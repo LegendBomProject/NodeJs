@@ -9,49 +9,56 @@ import { HttpStatus } from '@nestjs/common';
 export class materialService {
     constructor(
         @InjectRepository(material)private readonly materialRepository: Repository<material>,
-        @InjectRepository(material)private readonly componentRepository: Repository<component>,
+        @InjectRepository(component)private readonly componentRepository: Repository<component>,
     ) { }
 
     async all(): Promise<material[]> {
         return this.materialRepository.find();
     }
 //Promise<any>  components
-    async create({ materialNo, altBom }: MaterialDTO): Promise<any> {
+    async create({ materialNo, altBom,components }: MaterialDTO): Promise<any> {
         const material=this.materialRepository.create({
             materialNo,
             altBom,
-            baseQty:3,
-            // UOM,
-            // plant,
-            // createdBy,
-            // Status,
-            // ApprovedBy,
-            // DeletedMaterial,
+            
           });
 
         const materialdata=await this.materialRepository.save(material);
        
-        const id=materialdata[0].id;
+        const id=materialdata.id;
         const componentlist=[];
-        // for(let i=0;i<components.length;i++)
-        // {
-        //     const component= this.componentRepository.create(components[i]);
-        //     component.materialId=id;
-        //     componentlist.push(component);
-        // }
+        
+        for(let i=0;i<components.length;i++)
+        {
+            
+            const component= this.componentRepository.create(components[i]);
+            component.materialId=id;
+            componentlist.push(this.componentRepository.save(component));
+        }
+        
+        //const compprom=componentlist.map(async ele=>await this.componentRepository.save(ele));
+        const copmlist=await Promise.all(componentlist);
 
-        const compprom=componentlist.map(async ele=>await this.materialRepository.save(ele));
-        const copmlist=await Promise.all(compprom);
-        //  return
+        console.log(copmlist)
+        return new Promise((resolve) => {
+            resolve( {
+
+                material: material,
+                
+                component: copmlist
+                
+                }
+                );
+        });
+        //   return
         //  {
         //    // statusCode: HttpStatus.OK,
-        //     data:{
+           
         //         material:material;
         //         componennt:copmlist;
-        //     }
         //  }
 
-        return materialdata;
+        //return materialdata;
 
     }
 
