@@ -35,7 +35,6 @@ export class componentController {
             data1
         };
     }
-
     // @Put(':id') //can we use @Patch
     // async updateComponent(@Param('id') id: number, @Body() data: ComponentsDTO) {
     //     await this.componentService.update(id, data);
