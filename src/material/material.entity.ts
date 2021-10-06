@@ -12,8 +12,8 @@ export class material {
     @Column()
     altBom?: number;
 
-    @Column()
-    baseQty?: number;
+    // @Column()
+    // baseQty?: number;
 
     // @Column()
     // UOM?: string;

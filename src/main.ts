@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
   app.setGlobalPrefix('api');
   app.use(logger);
-  await app.listen(3000);
+  await app.listen(3001);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());;

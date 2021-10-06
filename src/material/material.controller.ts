@@ -57,13 +57,13 @@ export class materialController {
 
   @Post()
   public async createMaterial(@Body() MaterialDTO: MaterialDTO) {
-    //return await this.materialService.create(MaterialDTO);
+    return await this.materialService.create(MaterialDTO);
 
-    return {
-      //statuCode: 200,
-      message: "Components fetched successfully",
+  //   return {
+  //     //statuCode: 200,
+  //     message: "Components fetched successfully",
       
-  }
+  // }
 
   // @Get(':id')
   // async get(@Param('id') id: number) {
