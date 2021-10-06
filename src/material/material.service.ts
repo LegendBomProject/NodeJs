@@ -16,10 +16,11 @@ export class materialService {
         return this.materialRepository.find();
     }
     //Promise<any>  components
-    async create({ materialNo, altBom, components }: MaterialDTO): Promise<any> {
+    async create({ materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn, components }: MaterialDTO): Promise<any> {
         const material = this.materialRepository.create({
             materialNo,
             altBom,
+            baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
         });
 
         const materialdata = await this.materialRepository.save(material);
