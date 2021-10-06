@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     MailerModule.forRootAsync({
       // imports: [ConfigModule], // import module if not enabled globally
+      imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
         // transport: config.get("MAIL_TRANSPORT"),
         // or
