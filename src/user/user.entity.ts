@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn,BeforeInsert } 
 //import * as bcrypt from 'bcrypt';
 
 @Entity('user')
-export class login {
+export class user {
     @PrimaryGeneratedColumn() userId: number;
     @Column() roleId: number;
     @Column({ type: 'varchar', nullable: false, unique: true }) userName: string;

@@ -1,20 +1,20 @@
 import { Injectable,HttpException,HttpStatus } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { login } from "./login.entity";
+import { user } from "../user/user.entity";
 import { LoginUserDto } from './user-login.dto';
 import { comparePasswords } from '../common/util/utils'
 @Injectable()
 export class loginService {
     constructor(
-        @InjectRepository(login) private readonly loginRepository: Repository<login>
+        @InjectRepository(user) private readonly loginRepository: Repository<user>
     ) { }
 
-    async all(): Promise<login[]> {
+    async all(): Promise<user[]> {
         return this.loginRepository.find();
     }
  
-    async login({ userName, password }: LoginUserDto): Promise<login> {    
+    async login({ userName, password }: LoginUserDto): Promise<user> {    
         let user = await this.loginRepository.findOne({ where: { userName } });
         
         if (!user) {

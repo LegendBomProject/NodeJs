@@ -10,10 +10,10 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
   app.setGlobalPrefix('api');
   app.use(logger);
-  await app.listen(3001);
+  app.enableCors();;
   if (module.hot) {
     module.hot.accept();
-    module.hot.dispose(() => app.close());;
+    module.hot.dispose(() => app.close());
   }
 }
 bootstrap();
