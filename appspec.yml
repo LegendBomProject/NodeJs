@@ -4,3 +4,7 @@ files:
   - source: /
     destination: /var/www/legendbom/
     overwrite: true
+permissions:
+  - object: /var/www/legendbom/
+    owner: www-data
+    group: www-data
