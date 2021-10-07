@@ -1,4 +1,4 @@
-import { Module, NestModule,RequestMethod, MiddlewareConsumer} from '@nestjs/common';
+import { Module, NestModule, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { logger } from './common/middleware/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,7 +21,7 @@ import { MailModule } from './common/mail/mail.module';
       username: 'root',
       password: 'admin',
       database: 'legendbom',
-      entities: [user,role, material, component],
+      entities: [user, role, material, component],
       synchronize: true,
     }),
     loginModule,

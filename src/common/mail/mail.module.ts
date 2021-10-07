@@ -15,15 +15,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         // transport: config.get("MAIL_TRANSPORT"),
         // or
         transport: {
-          host: config.get('MAIL_HOST'),
-          secure: false,
+          // host: config.get('MAIL_HOST'),
+          // secure: false,
+          // auth: {
+          //   user: config.get('MAIL_USER'),
+          //   pass: config.get('MAIL_PASSWORD'),
+          // },
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false, // use SSL
           auth: {
-            user: config.get('MAIL_USER'),
-            pass: config.get('MAIL_PASSWORD'),
-          },
+            user: 'legendbom97@gmail.com',
+            pass: 'Admin@123'
+          }
         },
         defaults: {
-          from: `"No Reply" <${config.get('MAIL_FROM')}>`,
+          from: 'legendbom97@gmail.com'//`"No Reply" <${config.get('MAIL_FROM')}>`,
         },
         template: {
           dir: join(__dirname, 'templates'),
@@ -39,4 +46,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   providers: [MailService],
   exports: [MailService],
 })
-export class MailModule {}
+export class MailModule { }
