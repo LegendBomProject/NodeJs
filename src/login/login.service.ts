@@ -4,12 +4,12 @@ import { Repository } from "typeorm";
 import { user } from "../user/user.entity";
 import { LoginUserDto } from './user-login.dto';
 import { comparePasswords } from '../common/util/utils';
-import { MailService }  from '../common/mail/mail.service'
+//import { MailService }  from '../common/mail/mail.service'
 @Injectable()
 export class loginService {
     constructor(
         @InjectRepository(user) private readonly loginRepository: Repository<user>,
-        private mailService: MailService
+        //private mailService: MailService
     ) { }
 
     async all(): Promise<user[]> {
@@ -29,7 +29,7 @@ export class loginService {
         if (!areEqual) {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);    
         }
-        await this.mailService.sendUserConfirmation(user);
+        //await this.mailService.sendUserConfirmation(user);
         user = Object.assign({},{"status": 200},user);
         return user;  
     }
