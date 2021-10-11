@@ -1,3 +1,5 @@
+
+
 import {
   Body,
   Controller,
@@ -6,99 +8,99 @@ import {
   Param,
   Post,
   Put,
+  Req, Res
 } from '@nestjs/common';
 import { MaterialDTO } from './Material.dto';
 import { materialService } from "./material.service";
-
+import { Request, Response, } from 'express';
 @Controller('materials')
 export class materialController {
   constructor(private materialService: materialService) { }
 
-  @Get()
-  all() {
-    return this.materialService.all();
+  @Get(':userid')
+  async all(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('userid') userid: number
+  ) {
+    
+    const data= await this.materialService.all(userid);
+
+    res.json({
+      statusCode:201,
+      data:data,
+      status:true,
+      message:"data sent"
+    });
+    //material: materialdata
   }
 
-  // @Post()
-  // create(
-  //   @Body('materialNumber') materialNumber: number,
-  //   @Body('altBOM') altBOM: number,
-  //   @Body('baseQty') baseQty: number,
-  //   @Body('UOM') UOM: string,
-  //   @Body('plant') plant: string,
-  //   @Body('createdBy') createdBy: string,
-  //   @Body('Status') Status: string,
-  //   @Body('ApprovedBy') ApprovedBy: string,
-  //   @Body('DeletedMaterial') DeletedMaterial: string,
-  // ) {
-  //   return this.materialService.create({
-  //     materialNumber,
-  //     altBOM,
-  //     list[]
-  //     // baseQty,
-  //     // UOM,
-  //     // plant,
-  //     // createdBy,
-  //     // Status,
-  //     // ApprovedBy,
-  //     // DeletedMaterial,
-  //   });
-  // }
+  @Get(':userid/:materialid')
+  async getMaterialDetail(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('userid') userid: number,
+    @Param('materialid') materialid: number,
 
-  // @Post()
-  // async createMaterial(@Body() data: MaterialDTO) {
-  //     const component = await this.materialService.create(data);
-  //     return {
-  //         statusCode: HttpStatus.OK,
-  //         message: "Component created successfully",
-  //         component
-  //     };
-  // }
+  ) {
+  
+    const data= await this.materialService.materialDetail(userid,materialid);
+    data.material.components=data.component
+    delete data.component
+    res.json({
+      statuscode:201,
+      data,
+      status:true,
+      message:"data sent"
+    });    
+  }
 
   @Post()
-  public async createMaterial(@Body() MaterialDTO: MaterialDTO) {
-    return await this.materialService.create(MaterialDTO);
+  async createMaterial(@Body() data: MaterialDTO) {
+      const createddata = await this.materialService.create(data);
 
-  //   return {
-  //     //statuCode: 200,
-  //     message: "Components fetched successfully",
-      
-  // }
+      createddata.material.components=createddata.component
+      delete createddata.component
+      return {
+        statusCode:201,
+        data:{
+            material: createddata.material,
+        },
+        status:true,
+        message:"data added successfully."
+      };
+  }
 
-  // @Get(':id')
-  // async get(@Param('id') id: number) {
-  //   return this.materialService.get(id);
-  // }
 
-  // @Put(':id')
-  // async update(
-  //   @Param('id') id: number,
-  //   @Body('materialNumber') materialNumber: number,
-  //   @Body('altBOM') altBOM: number,
-  //   @Body('baseQty') baseQty: number,
-  //   @Body('UOM') UOM: string,
-  //   @Body('plant') plant: string,
-  //   @Body('createdBy') createdBy: string,
-  //   @Body('Status') Status: string,
-  //   @Body('ApprovedBy') ApprovedBy: string,
-  //   @Body('DeletedMaterial') DeletedMaterial: string,
-  // ) {
-  //   return this.materialService.update(id, {
-  //     materialNumber,
-  //     altBOM,
-  //     baseQty,
-  //     UOM,
-  //     plant,
-  //     createdBy,
-  //     Status,
-  //     ApprovedBy,
-  //     DeletedMaterial,
-  //   });
-  // }
+  @Put(':materialid')
+  async updateMaterial(
+    @Param('materialid') materialid: number,
+    @Body() indata: MaterialDTO,
+    ) {
+      let message="";
+    if(indata.isSubmit===true)
+    {
+      message="data submitted successfully."
+    }
+    else{
+      message="data updated successfully."
+    }
+    const data = await this.materialService.update(materialid,indata);
+    data.material.components=data.component
+    delete data.component
+    return {
+      statusCode:201,
+      data,
+      status:true,
+      message:message
+      }
+    };
+
+}
+
 
   // @Delete(':id')
   // async delete(@Param('id') id: number) {
   //   return this.materialService.delete(id);
   // }
-}
-}
+

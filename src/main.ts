@@ -1,8 +1,8 @@
-import { NestFactory,HttpAdapterHost } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { logger } from './common/middleware/logger.middleware';
 import { AllExceptionsFilter } from './common/exception/all-exceptions.filter';
-import  utils  from './common/util/utils'
+import utils from './common/util/utils'
 declare const module: any;
 
 async function bootstrap() {
@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(logger);
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(3001);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());

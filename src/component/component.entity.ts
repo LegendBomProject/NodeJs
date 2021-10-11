@@ -38,4 +38,7 @@ export class component {
 
     @Column({ nullable: true })
     isDeleted?: string;
+
+    @Column()
+    createdBy?: string;
 }

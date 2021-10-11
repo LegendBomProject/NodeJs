@@ -9,16 +9,23 @@ export class componentService {
         @InjectRepository(component) private readonly componentRepository: Repository<component>
     ) { }
 
-    async showAll(): Promise<component[]> {
-        return this.componentRepository.find();
+    async showAll(userid: number, materialid: number): Promise<any> {
+        console.log('materialid', materialid);
+        const componentData = await this.componentRepository.find();
+        return componentData;
     }
 
-    async read(id: number): Promise<component[]> {
-        return await this.componentRepository.find({ where: { materialId: id } });
+    async read(userid: number, id: number): Promise<any> {
+        const componentData = await this.componentRepository.find(
+            { where: { id: id } }
+        );
+        return {
+            componentData
+        }
     }
 
-    async destroy(id: number): Promise<any> {
-        await this.componentRepository.delete(id);
-        return { delete: true };
+    async destroy(userid: number, id: number): Promise<any> {
+        const deleteComponent = await this.componentRepository.delete(id);
+        return { deleteComponent, delete: true };
     }
 }
