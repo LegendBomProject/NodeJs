@@ -39,8 +39,8 @@ export class materialService {
             { where: { materialId: materialid } }
         );
         return {
-            materialdata: materialdata,
-            componentdata: componentdata
+            material:materialdata,
+            component:componentdata
         }
     }
 
@@ -78,26 +78,29 @@ export class materialService {
 
     async update(id: number, { materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby,
         isDeleted, isSubmit, createdOn, components }: MaterialDTO): Promise<any> {
-        // const mat=new material;
+            // const mat=new material;
+          
+            // mat.materialNo=materialNo;
+            // mat.altBom=altBom;
+            // mat.baseQty=baseQty;
+            // mat.UOM=UOM;
+            // mat.plant=plant;
+            // mat.createdBy=createdBy;
+            // mat.status=status;
+            // mat.Approvedby=Approvedby;
+            // mat.isDeleted=isDeleted;
+            // mat.isSubmit=isSubmit;
+            const material = this.materialRepository.create({
+                materialNo,
+                altBom,
+                baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
+            });
+            
+         await this.materialRepository.update(id, material);
 
-        // mat.materialNo=materialNo;
-        // mat.altBom=altBom;
-        // mat.baseQty=baseQty;
-        // mat.UOM=UOM;
-        // mat.plant=plant;
-        // mat.createdBy=createdBy;
-        // mat.status=status;
-        // mat.Approvedby=Approvedby;
-        // mat.isDeleted=isDeleted;
-        // mat.isSubmit=isSubmit;
-        const material = this.materialRepository.create({
-            materialNo,
-            altBom,
-            baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
-        });
-
-        const updatedMaterial = this.materialRepository.update(id, material);
-
+         const updatedMaterial=await this.materialRepository.find(
+            { where: { id:id } }
+        );
         const componentlist = [];
         for (let i = 0; i < components.length; i++) {
 
@@ -110,6 +113,14 @@ export class materialService {
 
                 this.componentRepository.update(components[i].id, components[i]);
             }
+            await Promise.all(componentlist);
+            const updatedComponentdata=await this.componentRepository.find(
+                { where: { materialId:id } }
+            );
+            return{
+                material:updatedMaterial,
+                component:updatedComponentdata
+               }
 
         }
 
