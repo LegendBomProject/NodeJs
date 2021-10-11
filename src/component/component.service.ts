@@ -24,8 +24,8 @@ export class componentService {
         }
     }
 
-    async destroy(id: number): Promise<any> {
-        await this.componentRepository.delete(id);
-        return { delete: true };
+    async destroy(userid: number, id: number): Promise<any> {
+        const deleteComponent = await this.componentRepository.delete(id);
+        return { deleteComponent, delete: true };
     }
 }
