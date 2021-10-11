@@ -40,8 +40,8 @@ export class materialService {
             { where: { materialId:materialid } }
         );
         return {
-            materialdata:materialdata,
-            componentdata:componentdata
+            material:materialdata,
+            component:componentdata
         }      
     }
 
@@ -97,7 +97,11 @@ export class materialService {
                 baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
             });
             
-        const updatedMaterial= this.materialRepository.update(id, material);
+         await this.materialRepository.update(id, material);
+
+         const updatedMaterial=await this.materialRepository.find(
+            { where: { id:id } }
+        );
 
         const componentlist = [];
         for (let i = 0; i < components.length; i++) {
@@ -112,7 +116,18 @@ export class materialService {
                 
                 this.componentRepository.update(components[i].id, components[i]);
             }
-            
+
+            await Promise.all(componentlist);
+
+            const updatedComponentdata=await this.componentRepository.find(
+                { where: { materialId:id } }
+            );
+
+            return{
+                material:updatedMaterial,
+                component:updatedComponentdata
+               }
+
         }
 
     }
