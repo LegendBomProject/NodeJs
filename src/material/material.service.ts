@@ -16,7 +16,7 @@ export class materialService {
 
     async all(userid: number): Promise<material[]> {
         const materialdata = await this.materialRepository.find(
-            { where: { createdBy: userid } }
+            // { where: { createdBy: userid } }
         );
         return materialdata;
 
@@ -24,8 +24,8 @@ export class materialService {
 
     async materialDetail(userid: number, materialid: number): Promise<any> {
 
-        console.log(userid);
-        console.log(materialid);
+        // console.log(userid);
+        // console.log(materialid);
         const materialdata = await this.materialRepository.find(
             { where: { id: materialid } }
         );
@@ -38,8 +38,9 @@ export class materialService {
         const componentdata = await this.componentRepository.find(
             { where: { materialId: materialid } }
         );
+        
         return {
-            material:materialdata,
+            material:materialdata[0],
             component:componentdata
         }
     }
@@ -118,7 +119,7 @@ export class materialService {
                 { where: { materialId:id } }
             );
             return{
-                material:updatedMaterial,
+                material:updatedMaterial[0],
                 component:updatedComponentdata
                }
 

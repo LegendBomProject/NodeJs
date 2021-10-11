@@ -25,7 +25,7 @@ export class materialController {
   ) {
     
     const data= await this.materialService.all(userid);
-  
+
     res.json({
       statusCode:201,
       data:data,
@@ -45,7 +45,8 @@ export class materialController {
   ) {
   
     const data= await this.materialService.materialDetail(userid,materialid);
-
+    data.material.components=data.component
+    delete data.component
     res.json({
       statuscode:201,
       data,
@@ -57,11 +58,13 @@ export class materialController {
   @Post()
   async createMaterial(@Body() data: MaterialDTO) {
       const createddata = await this.materialService.create(data);
+
+      createddata.material.components=createddata.component
+      delete createddata.component
       return {
         statusCode:201,
         data:{
             material: createddata.material,
-            component: createddata.component
         },
         status:true,
         message:"data added successfully."
@@ -83,6 +86,8 @@ export class materialController {
       message="data updated successfully."
     }
     const data = await this.materialService.update(materialid,indata);
+    data.material.components=data.component
+    delete data.component
     return {
       statusCode:201,
       data,

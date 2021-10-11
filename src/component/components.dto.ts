@@ -9,4 +9,5 @@ export interface ComponentsDTO {
     dayInProgress: number,
     relOfProd: boolean,
     materialId: number,
+    createdBy: string;
 }
