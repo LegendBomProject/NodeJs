@@ -22,7 +22,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const resException = Object.assign({}, { timestamp: new Date().toISOString() }, exceptionClone);
 
     response.status(status).json(
-      resException
+      {
+        statusCode: resException.responseCode ? resException.responseCode : resException.status,
+        success: false,
+        message: resException.response ?
+          resException.response.message ? resException.response.message : resException.response
+          : resException.message,
+      }
+      // resException
     );
   }
 }
