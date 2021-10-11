@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { material } from 'src/material/material.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('component')
 export class component {
@@ -6,13 +7,16 @@ export class component {
     id: number;
 
     @Column({ nullable: true })
-    materialNumber?: number;
+    materialId?: number;
 
     @Column({ nullable: true })
-    itemBOMNumber?: number;
+    materialNo?: number;
 
     @Column({ nullable: true })
-    componentNumber?: number;
+    itemBomNO?: number;
+
+    @Column({ nullable: true })
+    componenetNo?: number;
 
     @Column({ nullable: true })
     quantity?: number;
@@ -21,17 +25,20 @@ export class component {
     UOM?: string;
 
     @Column({ nullable: true })
-    ExponsionType?: string;
+    explosionType?: string;
 
-    @Column()
-    RelForCosting: boolean;
-
-    @Column()
-    dayInProcess: number;
-
-    @Column()
-    RelOfProd: boolean;
+    @Column({ nullable: true, default: false, select: false })
+    relOfCosting: boolean;
 
     @Column({ nullable: true })
-    deletedComponent?: string;
+    dayInProgress: number;
+
+    @Column({ nullable: true, default: false, select: false })
+    relOfProd: boolean;
+
+    @Column({ nullable: true })
+    isDeleted?: string;
+
+    @Column()
+    createdBy?: string;
 }

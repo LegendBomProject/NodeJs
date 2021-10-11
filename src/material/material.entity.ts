@@ -5,30 +5,38 @@ export class material {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
-    materialNumber?: number;
+    @Column()
+    materialNo?: number;
 
-    @Column({ nullable: true })
-    altBOM?: number;
+    @Column()
+    altBom?: number;
 
-    @Column({ nullable: true })
+    @Column()
     baseQty?: number;
 
-    @Column({ nullable: true })
+    @Column()
     UOM?: string;
 
-    @Column({ nullable: true })
+    @Column()
     plant?: string;
 
-    @Column({ nullable: true })
+    @Column()
     createdBy?: string;
 
-    @Column({ nullable: true })
-    Status?: string;
+    @Column()
+    status?: string;
 
-    @Column({ nullable: true })
-    ApprovedBy?: string;
+    @Column()
+    Approvedby?: string;
 
-    @Column({ nullable: true })
-    DeletedMaterial?: string;
+    @Column()
+    isDeleted?: string;
+
+    @Column()
+    isSubmit?: boolean;
+
+    @Column()
+    createdOn?: string;
 }
+
+

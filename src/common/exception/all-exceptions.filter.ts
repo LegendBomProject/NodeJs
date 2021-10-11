@@ -17,13 +17,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    const exceptionClone = JSON.parse(JSON.stringify(exception));
 
-    response.status(status).json({
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-      message:exceptionClone.sqlMessage
-    });
+    const exceptionClone = JSON.parse(JSON.stringify(exception));
+    const resException = Object.assign({}, { timestamp: new Date().toISOString() }, exceptionClone);
+
+    response.status(status).json(
+      resException
+    );
   }
 }

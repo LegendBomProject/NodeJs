@@ -1,69 +1,49 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { componentService } from './component.service';
+import { Request, Response, } from 'express';
+// import { ComponentsDTO } from './components.dto';
 
 @Controller('components')
 export class componentController {
     constructor(private componentService: componentService) { }
 
-    @Get()
-    all() {
-        return this.componentService.all();
-    }
-
-    @Post()
-    create(
-        @Body('itemBOMNumber') itemBOMNumber: number,
-        @Body('componentNumber') componentNumber: number,
-        @Body('quantity') quantity: number,
-        @Body('UOM') UOM: string,
-        @Body('ExponsionType') ExponsionType: string,
-        @Body('RelForCosting') RelForCosting: boolean,
-        @Body('dayInProcess') dayInProcess: number,
-        @Body('RelOfProd') RelOfProd: boolean,
+    @Get(':userid/:materialid')
+    async showAllComponents(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Param('userid') userid: number,
+        @Param('materialid') materialid: number
     ) {
-        return this.componentService.create({
-            itemBOMNumber,
-            componentNumber,
-            quantity,
-            UOM,
-            ExponsionType,
-            RelForCosting,
-            dayInProcess,
-            RelOfProd
+        console.log('materialid==', materialid);
+        const data = await this.componentService.showAll(userid, materialid);
+        res.json({
+            statuscode: 201,
+            data: data,
+            status: true
         });
     }
 
-    @Get(':id')
-    async get(@Param('id') id: number) {
-        return this.componentService.get(id);
-    }
-
-    @Put(':id')
-    async update(
-        @Param('id') id: number,
-        @Body('itemBOMNumber') itemBOMNumber: number,
-        @Body('componentNumber') componentNumber: number,
-        @Body('quantity') quantity: number,
-        @Body('UOM') UOM: string,
-        @Body('ExponsionType') ExponsionType: string,
-        @Body('RelForCosting') RelForCosting: boolean,
-        @Body('dayInProcess') dayInProcess: number,
-        @Body('RelOfProd') RelOfProd: boolean,
+    @Get(':userid/:id')
+    async findById(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Param('userid') userid: number,
+        @Param('id') id: number
     ) {
-        return this.componentService.update(id, {
-            itemBOMNumber,
-            componentNumber,
-            quantity,
-            UOM,
-            ExponsionType,
-            RelForCosting,
-            dayInProcess,
-            RelOfProd
+        const data = await this.componentService.read(userid, id);
+        res.json({
+            statuscode: 201,
+            data: { data },
+            status: true
         });
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: number) {
-        return this.componentService.delete(id);
+    async deleteComponent(@Param('id') id: number) {
+        await this.componentService.destroy(id);
+        return {
+            statusCode: HttpStatus.OK,
+            message: "Component deleted successfully."
+        };
     }
 }
