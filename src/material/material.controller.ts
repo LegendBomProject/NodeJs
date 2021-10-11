@@ -6,43 +6,42 @@ import {
   Param,
   Post,
   Put,
-  Req, Res 
+  Req, Res
 } from '@nestjs/common';
 import { MaterialDTO } from './Material.dto';
 import { materialService } from "./material.service";
-import { Request, Response,} from 'express';
+import { Request, Response, } from 'express';
 @Controller('materials')
 export class materialController {
   constructor(private materialService: materialService) { }
 
- @Get(':userid')
- async all(
+  @Get(':userid')
+  async all(
     @Req() req: Request,
     @Res() res: Response,
     @Param('userid') userid: number
   ) {
-    
-    const data= await this.materialService.all(userid);
-    
-    if(!data)
-    {
+
+    const data = await this.materialService.all(userid);
+
+    if (!data) {
       res.json({
-        statuscode:403,
-        data:data,
-        status:true
+        statuscode: 403,
+        data: data,
+        status: true
       });
     }
     res.json({
-      statuscode:201,
-      data:data,
-      status:true
+      statuscode: 201,
+      data: data,
+      status: true
     });
-     //material: materialdata
-    
+    //material: materialdata
+
   }
 
   @Get(':userid/:materialid')
- async getMaterialDetail(
+  async getMaterialDetail(
     @Req() req: Request,
     @Res() res: Response,
     @Param('userid') userid: number,
@@ -50,7 +49,7 @@ export class materialController {
 
   ) {
     console.log(userid)
-    const data= await this.materialService.materialDetail(userid,materialid);
+    const data = await this.materialService.materialDetail(userid, materialid);
     console.log(data);
     // if(!data.materialdata)
     // {
@@ -61,37 +60,37 @@ export class materialController {
     //   });
     // }
     res.json({
-      statuscode:201,
-      data:{data},
-      status:true
-    });    
+      statuscode: 201,
+      data: { data },
+      status: true
+    });
   }
 
   @Post()
   async createMaterial(@Body() data: MaterialDTO) {
-      const createddata = await this.materialService.create(data);
-      return {
-        statusCode:201,
-        data:{
-            material: createddata.material,
-            component: createddata.component
-        }
-      };
+    const createddata = await this.materialService.create(data);
+    return {
+      statusCode: 201,
+      data: {
+        material: createddata.material,
+        component: createddata.component
+      }
+    };
   }
-  
+
 
   @Put(':materialid')
   async updateMaterial(
     @Param('materialid') materialid: number,
     @Body() data: MaterialDTO,
-    ) {
+  ) {
     console.log(data)
-    const createddata = await this.materialService.update(materialid,data);
+    const createddata = await this.materialService.update(materialid, data);
     return {
-      statusCode:201,
-      data:{
-      material: createddata
-           // component: createddata.component
+      statusCode: 201,
+      data: {
+        material: createddata
+        // component: createddata.component
       }
     };
   }

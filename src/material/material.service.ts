@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 //import { component } from "src/component/component.entity";
-import { component} from '../component/component.entity';
+import { component } from '../component/component.entity';
 import { Repository } from "typeorm";
 import { MaterialDTO } from "./Material.dto";
 import { material } from "./material.entity";
 import { HttpStatus } from '@nestjs/common';
-import { Request, Response,} from 'express';
+import { Request, Response, } from 'express';
 @Injectable()
 export class materialService {
     constructor(
@@ -14,38 +14,37 @@ export class materialService {
         @InjectRepository(component) private readonly componentRepository: Repository<component>,
     ) { }
 
-    async all(userid:number): Promise<material[]> {
-        const materialdata=await this.materialRepository.find(
+    async all(userid: number): Promise<material[]> {
+        const materialdata = await this.materialRepository.find(
             { where: { createdBy: userid } }
         );
         return materialdata;
-        
+
     }
 
-    async materialDetail(userid:number,materialid:number): Promise<any> {
+    async materialDetail(userid: number, materialid: number): Promise<any> {
 
         console.log(userid);
         console.log(materialid);
-        const materialdata=await this.materialRepository.find(
-            { where: { id:materialid } }
+        const materialdata = await this.materialRepository.find(
+            { where: { id: materialid } }
         );
-//createdBy: userid ,
+        //createdBy: userid ,
         console.log(materialdata);
 
-        if(!materialdata.length)
-        {
+        if (!materialdata.length) {
             return materialdata;
         }
-        const componentdata=await this.componentRepository.find(
-            { where: { materialId:materialid } }
+        const componentdata = await this.componentRepository.find(
+            { where: { materialId: materialid } }
         );
         return {
-            materialdata:materialdata,
-            componentdata:componentdata
-        }      
+            materialdata: materialdata,
+            componentdata: componentdata
+        }
     }
 
-    async create({ materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby, 
+    async create({ materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby,
         isDeleted, isSubmit, createdOn, components }: MaterialDTO): Promise<any> {
         const material = this.materialRepository.create({
             materialNo,
@@ -65,54 +64,53 @@ export class materialService {
             component.materialNo = materialNo;
             componentlist.push(this.componentRepository.save(component));
         }
-    
+
         const copmlist = await Promise.all(componentlist);
 
         console.log(copmlist)
-       return{
-        material:materialdata,
-        component:copmlist
-       }
+        return {
+            material: materialdata,
+            component: copmlist
+        }
 
-     }
+    }
 
 
-    async update(id: number, { materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby, 
+    async update(id: number, { materialNo, altBom, baseQty, UOM, plant, createdBy, status, Approvedby,
         isDeleted, isSubmit, createdOn, components }: MaterialDTO): Promise<any> {
-            // const mat=new material;
-          
-            // mat.materialNo=materialNo;
-            // mat.altBom=altBom;
-            // mat.baseQty=baseQty;
-            // mat.UOM=UOM;
-            // mat.plant=plant;
-            // mat.createdBy=createdBy;
-            // mat.status=status;
-            // mat.Approvedby=Approvedby;
-            // mat.isDeleted=isDeleted;
-            // mat.isSubmit=isSubmit;
-            const material = this.materialRepository.create({
-                materialNo,
-                altBom,
-                baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
-            });
-            
-        const updatedMaterial= this.materialRepository.update(id, material);
+        // const mat=new material;
+
+        // mat.materialNo=materialNo;
+        // mat.altBom=altBom;
+        // mat.baseQty=baseQty;
+        // mat.UOM=UOM;
+        // mat.plant=plant;
+        // mat.createdBy=createdBy;
+        // mat.status=status;
+        // mat.Approvedby=Approvedby;
+        // mat.isDeleted=isDeleted;
+        // mat.isSubmit=isSubmit;
+        const material = this.materialRepository.create({
+            materialNo,
+            altBom,
+            baseQty, UOM, plant, createdBy, status, Approvedby, isDeleted, isSubmit, createdOn
+        });
+
+        const updatedMaterial = this.materialRepository.update(id, material);
 
         const componentlist = [];
         for (let i = 0; i < components.length; i++) {
 
-            if(!components[i].materialId)
-            {
+            if (!components[i].materialId) {
                 const component = this.componentRepository.create(components[i]);
-                 component.materialId = id;
-                 componentlist.push(this.componentRepository.save(component));
+                component.materialId = id;
+                componentlist.push(this.componentRepository.save(component));
             }
-            else{
-                
+            else {
+
                 this.componentRepository.update(components[i].id, components[i]);
             }
-            
+
         }
 
     }
