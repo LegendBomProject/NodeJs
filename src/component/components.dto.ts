@@ -1,4 +1,5 @@
 export interface ComponentsDTO {
+    id:number,
     itemBomNO: number,
     componenetNo: number,
     quantity: number,
@@ -7,4 +8,5 @@ export interface ComponentsDTO {
     relOfCosting: boolean,
     dayInProgress: number,
     relOfProd: boolean,
+    materialId: number,
 }

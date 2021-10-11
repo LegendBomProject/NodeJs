@@ -6,99 +6,99 @@ import {
   Param,
   Post,
   Put,
+  Req, Res 
 } from '@nestjs/common';
 import { MaterialDTO } from './Material.dto';
 import { materialService } from "./material.service";
-
+import { Request, Response,} from 'express';
 @Controller('materials')
 export class materialController {
   constructor(private materialService: materialService) { }
 
-  @Get()
-  all() {
-    return this.materialService.all();
+ @Get(':userid')
+ async all(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('userid') userid: number
+  ) {
+    
+    const data= await this.materialService.all(userid);
+    
+    if(!data)
+    {
+      res.json({
+        statuscode:403,
+        data:data,
+        status:true
+      });
+    }
+    res.json({
+      statuscode:201,
+      data:data,
+      status:true
+    });
+     //material: materialdata
+    
   }
 
-  // @Post()
-  // create(
-  //   @Body('materialNumber') materialNumber: number,
-  //   @Body('altBOM') altBOM: number,
-  //   @Body('baseQty') baseQty: number,
-  //   @Body('UOM') UOM: string,
-  //   @Body('plant') plant: string,
-  //   @Body('createdBy') createdBy: string,
-  //   @Body('Status') Status: string,
-  //   @Body('ApprovedBy') ApprovedBy: string,
-  //   @Body('DeletedMaterial') DeletedMaterial: string,
-  // ) {
-  //   return this.materialService.create({
-  //     materialNumber,
-  //     altBOM,
-  //     list[]
-  //     // baseQty,
-  //     // UOM,
-  //     // plant,
-  //     // createdBy,
-  //     // Status,
-  //     // ApprovedBy,
-  //     // DeletedMaterial,
-  //   });
-  // }
+  @Get(':userid/:materialid')
+ async getMaterialDetail(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('userid') userid: number,
+    @Param('materialid') materialid: number,
 
-  // @Post()
-  // async createMaterial(@Body() data: MaterialDTO) {
-  //     const component = await this.materialService.create(data);
-  //     return {
-  //         statusCode: HttpStatus.OK,
-  //         message: "Component created successfully",
-  //         component
-  //     };
-  // }
+  ) {
+    console.log(userid)
+    const data= await this.materialService.materialDetail(userid,materialid);
+    console.log(data);
+    // if(!data.materialdata)
+    // {
+    //   res.json({
+    //     statuscode:403,
+    //     data:[],
+    //     status:true
+    //   });
+    // }
+    res.json({
+      statuscode:201,
+      data:{data},
+      status:true
+    });    
+  }
 
   @Post()
-  public async createMaterial(@Body() MaterialDTO: MaterialDTO) {
-    return await this.materialService.create(MaterialDTO);
+  async createMaterial(@Body() data: MaterialDTO) {
+      const createddata = await this.materialService.create(data);
+      return {
+        statusCode:201,
+        data:{
+            material: createddata.material,
+            component: createddata.component
+        }
+      };
+  }
+  
 
-  //   return {
-  //     //statuCode: 200,
-  //     message: "Components fetched successfully",
-      
-  // }
-
-  // @Get(':id')
-  // async get(@Param('id') id: number) {
-  //   return this.materialService.get(id);
-  // }
-
-  // @Put(':id')
-  // async update(
-  //   @Param('id') id: number,
-  //   @Body('materialNumber') materialNumber: number,
-  //   @Body('altBOM') altBOM: number,
-  //   @Body('baseQty') baseQty: number,
-  //   @Body('UOM') UOM: string,
-  //   @Body('plant') plant: string,
-  //   @Body('createdBy') createdBy: string,
-  //   @Body('Status') Status: string,
-  //   @Body('ApprovedBy') ApprovedBy: string,
-  //   @Body('DeletedMaterial') DeletedMaterial: string,
-  // ) {
-  //   return this.materialService.update(id, {
-  //     materialNumber,
-  //     altBOM,
-  //     baseQty,
-  //     UOM,
-  //     plant,
-  //     createdBy,
-  //     Status,
-  //     ApprovedBy,
-  //     DeletedMaterial,
-  //   });
-  // }
+  @Put(':materialid')
+  async updateMaterial(
+    @Param('materialid') materialid: number,
+    @Body() data: MaterialDTO,
+    ) {
+    console.log(data)
+    const createddata = await this.materialService.update(materialid,data);
+    return {
+      statusCode:201,
+      data:{
+      material: createddata
+           // component: createddata.component
+      }
+    };
+  }
 
   // @Delete(':id')
   // async delete(@Param('id') id: number) {
   //   return this.materialService.delete(id);
   // }
-}
+
 }
