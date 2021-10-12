@@ -18,7 +18,8 @@ export class componentController {
         res.json({
             statuscode: 201,
             data: data,
-            status: true
+            status: true,
+            message: "Successfully fetch"
         });
     }
 

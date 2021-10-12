@@ -10,8 +10,10 @@ export class componentService {
     ) { }
 
     async showAll(userid: number, materialid: number): Promise<any> {
-        const componentData = await this.componentRepository.find();
-        return componentData;
+        const componentData = await this.componentRepository.find(
+            { where: { materialId: materialid } }
+        );
+        return { componentData }
     }
 
     async read(userid: number, id: number): Promise<any> {
