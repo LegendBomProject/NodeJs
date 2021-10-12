@@ -30,13 +30,13 @@ export class loginService {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
         }
         //await this.mailService.sendUserConfirmation(user);
-        user = Object.assign({},{"status": 200},user);
-        //  user = {
-        //     "statusCode": 200,
-        //     "data": user,
-        //     "success": true,
-        //     "message": 'You are successfully logged in'
-        // };
+        user = Object.assign({},
+         {
+            "statusCode": 200,
+            "data": user,
+            "success": true,
+            "message": 'You are successfully logged in'
+        },user);
 
       return user;
     }
