@@ -4,7 +4,8 @@ import { Repository } from "typeorm";
 import { user } from "../user/user.entity";
 import { LoginUserDto } from './user-login.dto';
 import { comparePasswords } from '../common/util/utils';
-import { MailService } from '../common/mail/mail.service'
+import { MailService } from '../common/mail/mail.service';
+
 @Injectable()
 export class loginService {
     constructor(
@@ -16,28 +17,22 @@ export class loginService {
         return this.loginRepository.find();
     }
 
-    async login({ userName, password }: LoginUserDto): Promise<user> {
-        let user = await this.loginRepository.findOne({ where: { userName } });
+    async login(req,res): Promise<user> {
+        const reqBody =req.body;
+        const userName=reqBody.userName;
+         let user = await this.loginRepository.findOne({ where: { userName } });
 
         if (!user) {
             throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
         }
 
         // compare passwords    
-        const areEqual = await comparePasswords(user.password, password);
+        const areEqual = await comparePasswords(user.password, reqBody.password);
 
         if (!areEqual) {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
         }
         //await this.mailService.sendUserConfirmation(user);
-        user = Object.assign({},
-          {
-                "statusCode": 200,
-                "data": user,
-                "success": true,
-                "message": 'You are successfully logged in'
-            }, user);
-
         return user;
     }
 }

@@ -29,7 +29,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
           resException.response.message ? resException.response.message : resException.response
           : resException.message,
       }
-      // resException
     );
   }
 }

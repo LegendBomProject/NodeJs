@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(logger);
   app.enableCors();
-  await app.listen(3001);
+  await app.listen(3000);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
