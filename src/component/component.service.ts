@@ -10,7 +10,6 @@ export class componentService {
     ) { }
 
     async showAll(userid: number, materialid: number): Promise<any> {
-        console.log('materialid', materialid);
         const componentData = await this.componentRepository.find();
         return componentData;
     }
