@@ -38,12 +38,18 @@ export class componentController {
         });
     }
 
-    @Delete(':id')
-    async deleteComponent(@Param('id') id: number) {
-        await this.componentService.destroy(id);
-        return {
-            statusCode: HttpStatus.OK,
-            message: "Component deleted successfully."
-        };
+    @Delete(':userid/:id')
+    async deleteComponent(
+        @Req() req: Request,
+        @Res() res: Response,
+        @Param('userid') userid: number,
+        @Param('id') id: number
+    ) {
+        const data = await this.componentService.destroy(userid, id);
+        res.json({
+            statuscode: 201,
+            data: { data },
+            status: true
+        });
     }
 }
