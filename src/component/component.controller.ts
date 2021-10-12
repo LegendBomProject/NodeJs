@@ -14,12 +14,12 @@ export class componentController {
         @Param('userid') userid: number,
         @Param('materialid') materialid: number
     ) {
-        console.log('materialid==', materialid);
         const data = await this.componentService.showAll(userid, materialid);
         res.json({
             statuscode: 201,
             data: data,
-            status: true
+            status: true,
+            message: "Successfully fetch"
         });
     }
 
