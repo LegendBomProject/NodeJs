@@ -7,7 +7,7 @@ export interface MaterialDTO {
     UOM: string;
     plant: string;
     createdBy: string;
-    status: string;
+    status: number;
     Approvedby: string;
     isDeleted: string;
     isSubmit: boolean;

@@ -21,13 +21,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const exceptionClone = JSON.parse(JSON.stringify(exception));
     const resException = Object.assign({}, { timestamp: new Date().toISOString() }, exceptionClone);
 
-    response.status(status).json(
+    response.status(status).send(
       {
-        statusCode: resException.responseCode ? resException.responseCode : resException.status,
+        statusCode: status,
         success: false,
-        message: resException.response ?
-          resException.response.message ? resException.response.message : resException.response
-          : resException.message,
+        message: resException.response?.message ? resException.response?.message
+          : resException.response ? resException.response
+            : resException.message ? resException.message
+              : resException.sqlMessage,
+        timestamp: resException.timestamp
       }
     );
   }

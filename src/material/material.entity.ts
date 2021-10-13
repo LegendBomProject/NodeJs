@@ -23,8 +23,8 @@ export class material {
     @Column()
     createdBy?: string;
 
-    @Column()
-    status?: string;
+    @Column({default:0})
+    status: number;
 
     @Column()
     Approvedby?: string;

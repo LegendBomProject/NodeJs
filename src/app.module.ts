@@ -11,6 +11,8 @@ import { materialModule } from './material/material.module';
 import { component } from './component/component.entity';
 import { componentModule } from './component/component.module';
 import { MailModule } from './common/mail/mail.module';
+import { approvalStatus } from './approvalStatus/approvalStatus.entity';
+
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { MailModule } from './common/mail/mail.module';
       username: 'root',
       password: 'admin',
       database: 'legendbom',
-      entities: [user, role, material, component],
+      entities: [user, role, material, component,approvalStatus],
       synchronize: true,
     }),
     loginModule,

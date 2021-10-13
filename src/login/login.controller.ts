@@ -17,13 +17,12 @@ export class loginController {
   @Post()
   public async login(@Req() req: Request, @Res() res: Response) {
     const loginData = await this.loginService.login(req, res);
-    return res.send({
+    return res.status(200).send({
       "statusCode": 200,
       "data": loginData,
       "success": true,
       "message": 'You are successfully logged in'
     });
-
   }
 
 }
