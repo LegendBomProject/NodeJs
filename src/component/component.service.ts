@@ -8,7 +8,6 @@ export class componentService {
     constructor(
         @InjectRepository(component) private readonly componentRepository: Repository<component>
     ) { }
-
     async showAll(req, res): Promise<component[]> {
         const reqQuery = req.query;
         const findQuery = { materialId: reqQuery.materialId };
