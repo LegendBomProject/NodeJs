@@ -9,8 +9,10 @@ export class componentService {
         @InjectRepository(component) private readonly componentRepository: Repository<component>
     ) { }
 
-    async showAll(userid: number, materialid: number): Promise<any> {
-        const componentData = await this.componentRepository.find();
+    async showAll(req, res): Promise<component[]> {
+        const reqQuery = req.query;
+        const findQuery = { materialId: reqQuery.materialId };
+        const componentData = await this.componentRepository.find({ where: findQuery });
         return componentData;
     }
 

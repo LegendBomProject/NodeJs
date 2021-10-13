@@ -14,12 +14,9 @@ export class materialService {
         @InjectRepository(component) private readonly componentRepository: Repository<component>,
     ) { }
 
-    async all(userid: number): Promise<material[]> {
-        const materialdata = await this.materialRepository.find(
-            // { where: { createdBy: userid } }
-        );
+    async all(): Promise<material[]> {
+        const materialdata = await this.materialRepository.find();
         return materialdata;
-
     }
 
     async materialDetail(userid: number, materialid: number): Promise<any> {
